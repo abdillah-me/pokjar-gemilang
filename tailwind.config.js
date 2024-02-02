@@ -13,6 +13,9 @@ module.exports = {
                 poppins: ["Poppins", "sans-serif"],
                 roboto: ["Roboto", "sans-serif"],
             },
+            colors: {
+                primary: "#2D348C",
+            },
         },
     },
     plugins: [],
