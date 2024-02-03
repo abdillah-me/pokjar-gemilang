@@ -39,11 +39,13 @@ const AdminPage: React.FC = () => {
     };
 
     useEffect(() => {
-        const tokenPokjar = localStorage.getItem("tokenPokjar");
-        if (tokenPokjar && tokenPokjar !== "") {
-            router.replace("/admin/dashboard");
+        if (router.isReady) {
+            const tokenPokjar = localStorage.getItem("tokenPokjar");
+            if (tokenPokjar && tokenPokjar !== "") {
+                router.replace("/admin/dashboard");
+            }
         }
-    }, []);
+    }, [router]);
 
     return (
         <div

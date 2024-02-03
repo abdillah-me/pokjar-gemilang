@@ -15,7 +15,7 @@ const CreateNews: React.FC = () => {
 
     const addData = async (e: any) => {
         e.preventDefault();
-        const rawContentState = convertToRaw(isiBerita.getCurrentContent());
+        const rawContentState: any = convertToRaw(isiBerita.getCurrentContent());
 
         if (
             judul === "" ||

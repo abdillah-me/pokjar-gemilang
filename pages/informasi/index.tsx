@@ -4,8 +4,10 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../src/axios/firebase";
 import Link from "next/link";
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { useRouter } from "next/router";
 
 const News: React.FC = () => {
+    const router = useRouter();
     const [newsData, setNewsData] = useState<any[]>([]);
     const [firstLoading, setFirstLoading] = useState<boolean>(true);
 
@@ -53,8 +55,10 @@ const News: React.FC = () => {
     };
 
     useEffect(() => {
-        readData();
-    }, []);
+        if (router.isReady) {
+            readData();
+        }
+    }, [router]);
 
     const convertTimestampToReadableDate = (timestamp: any) => {
         const date = new Date(timestamp.seconds * 1000);
@@ -91,9 +95,9 @@ const News: React.FC = () => {
                         id="cards-news"
                         className="grid gap-4 grid-cols-2 md:grid-cols-4 mt-4 md:my-8"
                     >
-                        {newsData.map((data: any) => {
+                        {newsData.map((data: any, index: number) => {
                             return (
-                                <Link href={`/informasi/${data.id}`}>
+                                <Link key={index} href={`/informasi/${data.id}`}>
                                     <div
                                         id="item-news"
                                         className="bg-white p-2 hover:shadow-md rounded-md cursor-pointer border"

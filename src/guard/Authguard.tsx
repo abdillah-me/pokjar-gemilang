@@ -15,7 +15,7 @@ const Authguard: React.FC<Props> = ({ children }) => {
         if (!token) {
             router.replace("/");
         }
-    }, [token]);
+    }, [token, router]);
 
     // Jika token tidak ada, tampilkan loading atau halaman login
     if (!token) {

@@ -48,7 +48,7 @@ const DetailNews: React.FC = () => {
         if (router.isReady && id) {
             getDocumentById(id);
         }
-    }, [id]);
+    }, [id, router]);
 
     const convertTimestampToReadableDate = (timestamp: any) => {
         const date = new Date(timestamp?.seconds * 1000);

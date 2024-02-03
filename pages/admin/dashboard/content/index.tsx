@@ -5,8 +5,10 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "../../../../src/axios/firebase";
 import Link from "next/link";
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { useRouter } from "next/router";
 
 const ContentSettings = () => {
+    const router = useRouter();
     const [newsData, setNewsData] = useState<any[]>([]);
     const [firstLoading, setFirstLoading] = useState<boolean>(true);
     const convertTimestampToReadableDate = (timestamp: any) => {
@@ -57,10 +59,11 @@ const ContentSettings = () => {
         }
     };
 
-
     useEffect(() => {
-        readData();
-    }, []);
+        if (router.isReady) {
+            readData();
+        }
+    }, [router]);
 
     const deleteData = async (docId: any) => {
         setFirstLoading(true);
@@ -128,67 +131,68 @@ const ContentSettings = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {newsData.length > 0
-                                    ? newsData.map((item: any) => {
-                                          return (
-                                              <tr className="">
-                                                  <td className="border border-gray-300 p-2">
-                                                      <p>
-                                                          {convertTimestampToReadableDate(
-                                                              item.created
-                                                          )}
-                                                      </p>
-                                                  </td>
-                                                  <td className="border border-gray-300 p-2">
-                                                      <p>{item.title}</p>
-                                                  </td>
-                                                  <td className="border border-gray-300 p-2">
-                                                      <p>
-                                                          {getTruncatedText(
-                                                              item.content
-                                                          )}
-                                                      </p>
-                                                  </td>
-                                                  <td className="border border-gray-300 p-2">
-                                                      <img
-                                                          src={item.image[0]}
-                                                          alt="image"
-                                                          style={{
-                                                              objectFit:
-                                                                  "cover",
-                                                              height: 100,
-                                                              width: 200,
-                                                          }}
-                                                      />
-                                                  </td>
-                                                  <td className="border border-gray-300 p-2">
-                                                      <div
-                                                          id="actions"
-                                                          className="flex items-center justify-center gap-2 text-sm"
-                                                      >
-                                                          <Link
-                                                              href={`/admin/dashboard/content/${item.id}`}
-                                                          >
-                                                              <button className="bg-blue-600 py-1 px-4 rounded-md text-white">
-                                                                  Edit
-                                                              </button>
-                                                          </Link>
-                                                          <button
-                                                              onClick={() =>
-                                                                  deleteData(
-                                                                      item.id
-                                                                  )
-                                                              }
-                                                              className="bg-red-600 py-1 px-4 rounded-md text-white"
-                                                          >
-                                                              Delete
-                                                          </button>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                          );
-                                      })
-                                    : null}
+                                {newsData.length > 0 ? (
+                                    newsData.map((item: any, index: any) => {
+                                        return (
+                                            <tr key={index} className="">
+                                                <td className="border border-gray-300 p-2">
+                                                    <p>
+                                                        {convertTimestampToReadableDate(
+                                                            item.created
+                                                        )}
+                                                    </p>
+                                                </td>
+                                                <td className="border border-gray-300 p-2">
+                                                    <p>{item.title}</p>
+                                                </td>
+                                                <td className="border border-gray-300 p-2">
+                                                    <p>
+                                                        {getTruncatedText(
+                                                            item.content
+                                                        )}
+                                                    </p>
+                                                </td>
+                                                <td className="border border-gray-300 p-2">
+                                                    <img
+                                                        src={item.image[0]}
+                                                        alt="image"
+                                                        style={{
+                                                            objectFit: "cover",
+                                                            height: 100,
+                                                            width: 200,
+                                                        }}
+                                                    />
+                                                </td>
+                                                <td className="border border-gray-300 p-2">
+                                                    <div
+                                                        id="actions"
+                                                        className="flex items-center justify-center gap-2 text-sm"
+                                                    >
+                                                        <Link
+                                                            href={`/admin/dashboard/content/${item.id}`}
+                                                        >
+                                                            <button className="bg-blue-600 py-1 px-4 rounded-md text-white">
+                                                                Edit
+                                                            </button>
+                                                        </Link>
+                                                        <button
+                                                            onClick={() =>
+                                                                deleteData(
+                                                                    item.id
+                                                                )
+                                                            }
+                                                            className="bg-red-600 py-1 px-4 rounded-md text-white"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <></>
+                                )}
                             </tbody>
                         </table>
                     )}

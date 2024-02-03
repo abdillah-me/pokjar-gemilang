@@ -6,7 +6,6 @@ const Header: React.FC = () => {
     const [hash, setHash] = useState<string>("");
 
     const router = useRouter();
-    console.log(router, "router");
 
     useEffect(() => {
         // Fungsi untuk memperbarui state berdasarkan hash URL

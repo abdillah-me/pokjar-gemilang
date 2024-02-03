@@ -37,7 +37,7 @@ const EditContent: React.FC = () => {
         if (router.isReady && id) {
             getDocumentById(id);
         }
-    }, [id]);
+    }, [id, router]);
 
     const updateData = async (docId: string) => {
         if (judul === "" || isiBerita === "" || images.length === 0) {
